@@ -1,8 +1,9 @@
 import "reflect-metadata"
 import { DataSource } from "typeorm"
+import { VendaItens } from "./entity/VendaItens"
 import { Pessoa } from "./entity/Pessoa"
-import { Bairro } from "./entity/Bairro"
 import { Cidade } from "./entity/Cidade"
+import { Bairro } from "./entity/Bairro"
 import { Produto } from "./entity/Produto"
 import { Venda } from "./entity/Venda"
 
@@ -15,7 +16,8 @@ export const AppDataSource = new DataSource({
     database: "desafio_apice",
     synchronize: true,
     logging: false,
-    entities: [Pessoa, Bairro, Cidade, Produto, Venda],
+    entities: [Pessoa, Cidade, Bairro, Produto, Venda, VendaItens],
     migrations: [],
     subscribers: [],
+    dropSchema: false
 })

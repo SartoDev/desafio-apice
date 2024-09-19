@@ -1,14 +1,18 @@
-import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne, ManyToOne } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, OneToOne, ManyToOne, CreateDateColumn, ManyToMany, JoinTable, BaseEntity } from "typeorm"
 import { Pessoa } from "./Pessoa"
 
 @Entity()
-export class Venda {
+export class Venda extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number
 
-    @Column({ type: 'date' })
+    @CreateDateColumn({ name: "data_venda" })
     dataVenda: string
     
-    @JoinColumn()
+    @ManyToOne(() => Pessoa, {nullable: false})
+    @JoinColumn({name: "pessoa_id"})
     pessoa: Pessoa
+
+    @Column({ type: "numeric", precision: 10, scale: 2 })
+    valor: number
 }

@@ -1,0 +1,36 @@
+{
+  "name": "desafio-apice",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
+    "@mui/icons-material": "^6.1.1",
+    "@mui/material": "^6.1.1",
+    "@mui/styled-engine-sc": "^6.1.0",
+    "@mui/x-data-grid": "^7.17.0",
+    "@mui/x-date-pickers": "^7.17.0",
+    "desafio-apice": "file:",
+    "next": "14.2.11",
+    "react": "^18",
+    "react-dom": "^18",
+    "styled-components": "^6.1.13"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.11",
+    "postcss": "^8.4.45",
+    "tailwindcss": "^3.4.11",
+    "typescript": "^5"
+  }
+}

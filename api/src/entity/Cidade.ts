@@ -1,13 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity } from "typeorm"
 
 @Entity()
-export class Cidade {
+export class Cidade extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number
 
     @Column()
     nome: string
 
-    @Column()
+    @Column({name: "sigla_uf"})
     siglaUF: string
 }
