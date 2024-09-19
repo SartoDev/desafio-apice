@@ -85,7 +85,7 @@ export default function VendaCreate() {
     }
     setValorTotalVenda(
       parseFloat(
-        (valorTotalVenda + parseFloat(produtoSelected?.valor)).toFixed(2)
+        (valorTotalVenda + parseFloat(produtoSelected?.valor) * produtoSelected?.quantidade).toFixed(2)
       )
     );
     setVendaItemList([...vendaItemList, produtoSelected]);

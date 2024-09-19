@@ -117,7 +117,7 @@ export default function BairroCreate() {
             open={openSnackbar}
             autoHideDuration={3000}
             onClose={handleCloseSnackbar}
-            message="Bairro atualizado com sucesso, redirecionando à lista de bairros..."
+            message="Bairro cadastrado com sucesso, redirecionando à lista de bairros..."
           />
     </>
   );
