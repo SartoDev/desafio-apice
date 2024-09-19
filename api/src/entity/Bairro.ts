@@ -1,10 +1,15 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, ManyToOne, BaseEntity } from "typeorm";
+import { Cidade } from "./Cidade";
 
 @Entity()
-export class Bairro {
-    @PrimaryGeneratedColumn()
-    id: number
+export class Bairro extends BaseEntity {
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    nome: string
+  @Column()
+  nome: string;
+
+  @ManyToOne(() => Cidade, { nullable: false })
+  @JoinColumn({ name: "cidade_id" })
+  cidade: Cidade;
 }
