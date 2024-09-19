@@ -19,5 +19,5 @@ export const AppDataSource = new DataSource({
     entities: [Pessoa, Cidade, Bairro, Produto, Venda, VendaItens],
     migrations: [],
     subscribers: [],
-    dropSchema: false
+    dropSchema: true
 })

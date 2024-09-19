@@ -28,7 +28,7 @@ export default function Header() {
         <div className="flex justify-evenly">
             <DropdowButton items={registerMenus} title="Cadastro" />
             <DropdowButton items={transferMenus} title="Movimento" />
-            <DropdowButton items={reportsMenus} title="Relatórios" />
+            {/* <DropdowButton items={reportsMenus} title="Relatórios" /> */}
         </div>
         <div>
             <Image

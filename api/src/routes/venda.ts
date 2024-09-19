@@ -8,9 +8,19 @@ const express = require('express')
 const router = express.Router()
 var jsonParser = bodyParser.json()
 
-router.get("/", async (req, res) => {
+router.get("/", async (req, res, next) => {
+    if(req.query.pessoa) {
+        next()
+        return
+    }
     const vendaList = await Venda.createQueryBuilder("venda")
     .leftJoinAndSelect("venda.pessoa", "pessoa")
+    .getMany()
+    res.send(vendaList)
+}, async (req,res) => {
+    const vendaList = await Venda.createQueryBuilder("venda")
+    .leftJoinAndSelect("venda.pessoa", "pessoa")
+    .where("pessoa.nome = :pessoa", {pessoa: req.query.pessoa})
     .getMany()
     res.send(vendaList)
 })
@@ -35,6 +45,7 @@ router.post("/", jsonParser, async (req, res) => {
     try {
         const venda = new Venda()
         venda.valor = req.body.valor
+        venda.dataVenda = req.body.dataVenda
         const pessoa = await Pessoa.findOneBy({id: req.body.pessoa.id})
         venda.pessoa = pessoa
         const vendaSaved = await venda.save()
@@ -64,12 +75,6 @@ router.put("/:id", jsonParser, async (req, res) => {
         const pessoa = await Pessoa.findOneBy({id: req.body.pessoa.id})
         vendaFind.pessoa = pessoa
         const vendaSaved = await vendaFind.save()
-        req.body.vendaItemList.forEach(async element => {
-            element.venda = vendaSaved
-            const produto = await Produto.findOneBy({id: element.id})
-            element.produto = produto
-            const vendaItensSaved = await element.save()
-        });
         res.send(vendaFind)
     } catch(e) {
         res.status(404).send(e.sqlMessage)
