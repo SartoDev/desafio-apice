@@ -19,6 +19,17 @@ import {
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useRouter } from "next/router";
+import PrintIcon from "@mui/icons-material/Print";
+import ReactPDF, {
+  Page,
+  Text,
+  View,
+  Document,
+  StyleSheet,
+  PDFDownloadLink,
+  pdf,
+} from "@react-pdf/renderer";
+import { saveAs } from "file-saver";
 
 const columns: GridColDef[] = [
   { field: "id", headerName: "Id", width: 70 },
@@ -94,6 +105,78 @@ export default function Venda() {
       .then((data) => setVendaList(data));
   };
 
+  const styles = StyleSheet.create({
+    page: {
+      flexDirection: "row",
+      backgroundColor: "#E4E4E4",
+    },
+    section: {
+      margin: 10,
+      padding: 10,
+      flexGrow: 1,
+    },
+    text: {
+      paddingLeft: 30,
+    },
+    item: {
+      paddingLeft: 70,
+    },
+    view: {
+      flexDirection: "row",
+      marginTop: 60,
+    },
+    viewItens: {
+      flexDirection: "row",
+      marginTop: 10,
+    },
+    ass: {
+      marginTop: 400,
+      flexDirection: "row",
+    },
+    assText: {
+      paddingRight: 300,
+    }
+  });
+
+  const handlePrintButton = async (row: any) => {
+    const response = await fetch(
+      `http://localhost:3001/venda-itens?vendaId=${row.id}`
+    );
+    const data = await response.json();
+    const MyDocument = (
+      <Document>
+        <Page size="A4" style={styles.page}>
+          <View style={styles.section}>
+            <Text>Data da Venda: {formatDate(row.dataVenda)}</Text>
+            <Text>Cliente: {row.pessoa.nome}</Text>
+            <View style={styles.view}>
+              <Text>Nome</Text>
+              <Text style={styles.text}>Quantidade</Text>
+              <Text style={styles.text}>Valor</Text>
+              <Text style={styles.text}>Valor Total</Text>
+            </View>
+            {data.map((item: any) => (
+              <View style={styles.viewItens}>
+                <Text>{item.produto.nome}</Text>
+                <Text style={styles.item}>{item.quantidade}</Text>
+                <Text style={styles.item}>{item.produto.valor}</Text>
+                <Text style={styles.item}>
+                  {item.quantidade * item.produto.valor}
+                </Text>
+              </View>
+            ))}
+            <View style={styles.ass}>
+              <Text style={styles.assText}>Ass:</Text>
+              <Text>Total da venda: R${row.valor}</Text>
+            </View>
+          </View>
+        </Page>
+      </Document>
+    );
+    const file = await pdf(MyDocument).toBlob();
+    saveAs(file, `relatorio-venda-${row.id}`);
+  };
+
   return (
     <div>
       <div className="flex justify-center gap-5 mt-6">
@@ -138,7 +221,7 @@ export default function Venda() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {vendaList.map((row: any) => (
+                {vendaList.map((row: any, index: any) => (
                   <TableRow>
                     <TableCell sx={{ color: "black" }}>{row.id}</TableCell>
                     <TableCell sx={{ color: "black" }}>
@@ -160,6 +243,12 @@ export default function Venda() {
                         aria-label="delete"
                       >
                         <DeleteIcon sx={{ color: "red" }} />
+                      </IconButton>
+                      <IconButton
+                        onClick={(e) => handlePrintButton(row)}
+                        aria-label="delete"
+                      >
+                        <PrintIcon sx={{ color: "blue" }} />
                       </IconButton>
                     </TableCell>
                   </TableRow>
